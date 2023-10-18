@@ -1,5 +1,6 @@
 package org.java.app.photoalbum.db.pojo;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.hibernate.validator.constraints.Length;
@@ -48,12 +49,13 @@ public class Photo {
 	
 	public Photo () { }
 	public Photo (String title, String description, 
-			String url, boolean visible) {
+			String url, boolean visible, Category...categories ) {
 		
 		setTitle(title);
 		setDescription(description);
 		setUrl(url);
 		setVisible(visible);
+		setCategories(Arrays.asList(categories));
 		
 	}
 	public int getId() {

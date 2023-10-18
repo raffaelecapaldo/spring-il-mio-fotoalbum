@@ -25,5 +25,9 @@ public class PhotoService {
 	public void save(Photo photo) {
 		photoRepo.save(photo);
 	}
+	
+	public List<Photo> findByTitle(String title) {
+		return photoRepo.findByTitleContaining(title);
+	}
 
 }

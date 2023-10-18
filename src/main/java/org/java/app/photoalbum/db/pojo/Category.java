@@ -19,7 +19,7 @@ public class Category {
 	private int id;
 	
 	@Column(length = 89, nullable = false, unique = true)
-	@Length(min = 3, max = 80, message = "La categoria deve avere un nome tra i 3 e gli 80 caratteri")
+	@Length(min = 2, max = 80, message = "La categoria deve avere un nome tra i 2 e gli 80 caratteri")
 	private String name;
 	
 	@ManyToMany(mappedBy = "categories")
