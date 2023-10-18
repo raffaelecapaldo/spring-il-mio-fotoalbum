@@ -1,6 +1,7 @@
 package org.java.app.photoalbum.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.java.app.photoalbum.db.pojo.Photo;
 import org.java.app.photoalbum.db.serv.PhotoService;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -29,5 +31,18 @@ public class PhotoController {
 		
 		return "photos/photo-index";
 		
+	}
+	
+	@GetMapping("/{id}")
+	public String getShow(@PathVariable int id, Model model) {
+		
+		Optional<Photo> otpPhoto = photoService.findById(id);
+		if (otpPhoto.isEmpty()) {
+			return "redirect:/photos";
+		}
+		Photo photo = otpPhoto.get();
+		model.addAttribute("photo", photo);
+		
+		return "photos/photo-show";
 	}
 }

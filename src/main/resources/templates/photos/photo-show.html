@@ -1,0 +1,51 @@
+<th:block th:replace="frags :: head(${photo.title})">
+</th:block>
+
+<body>
+    <main>
+        <div class="dashboard">
+            <div th:insert="frags :: sidebar">
+
+            </div>
+            <div class="main-content container-fluid">
+                <div class="d-flex justify-content-center">
+                    <h1>[[${photo.title}]] - ID ([[${photo.id}]])</h1>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <img class="img-thumbnail" th:src="*{photo.url}" th:alt="*{photo.title}">
+                </div>
+                <div class="d-flex align-items-center flex-column">
+                    <h3>Descrizione</h3>
+                    <p class="fs-5">[[${photo.description}]]</p>
+                </div>
+                <div class="d-flex justify-content-center text-center">
+                    <div class="d-flex flex-column">
+                    <h4>Categorie</h4>
+                    <div class="d-flex">
+                    <p
+                    th:each="category : ${photo.categories}"
+                    th:object="${category}"
+                    class="me-2"
+                    >
+                    <span class="badge text-bg-primary">[[*{name}]]</span>
+                </p>
+            </div>
+           
+                </div>
+                <div class="d-flex align-items-center flex-column px-4">
+                    <h4>URL della foto</h4>
+                    <a th:href="${photo.url}">Indirizzo</a></p>
+                </div>
+                <div class="d-flex flex-column text-center">
+                    <h4>Visibile</h4>
+                    <p>[[${photo.visible ? 'SI' : 'NO'}]]</p>
+                </div>
+                </div>
+              <div class="d-flex justify-content-center mt-3">
+                <a th:href="@{/photos}" class="btn btn-danger">Torna indietro</a>
+            </div>
+            </div>
+    </main>
+</body>
+
+</html>

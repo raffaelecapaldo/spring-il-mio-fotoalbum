@@ -44,3 +44,11 @@
     min-height: 100dvh;
     background-color: #f9fafb;
 }
+
+.preview {
+    width: 150px;
+}
+
+.pe-end-13rem {
+    padding-right:4.5rem;
+}
