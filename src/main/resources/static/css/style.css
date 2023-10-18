@@ -52,3 +52,11 @@
 .pe-end-13rem {
     padding-right:4.5rem;
 }
+
+.my-form {
+    background-color: #1b292b;
+    border-radius: 3px;
+    border:2px white solid;
+    color:white;
+    min-width: 30%;
+}

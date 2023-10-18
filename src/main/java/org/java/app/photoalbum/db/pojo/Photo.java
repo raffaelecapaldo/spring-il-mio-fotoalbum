@@ -46,6 +46,17 @@ public class Photo {
 		this.categories = categories;
 	}
 	
+	public boolean hasCategory(Category category) {
+		
+		if (getCategories() == null) return false;
+		
+		for (Category cat : getCategories()) 
+			if (cat.getId() == category.getId())
+				return true;
+		
+		return false;
+	}
+	
 	
 	public Photo () { }
 	public Photo (String title, String description, 

@@ -14,16 +14,23 @@
                 <div th:if="${#lists.isEmpty(photos)}" class="d-flex justify-content-center mt-2">
                     <h2>Nessuna foto trovata</h2>
                 </div>
-                <div th:if="${!#lists.isEmpty(pizzas)}" class="d-flex justify-content-center">
+                <div  class="d-flex justify-content-center">
+                    <div th:if="${updateMessage}" class="alert alert-success text-center">
+                        [[${updateMessage}]]
+                    </div>
                     <div class="table-responsive mt-2">
                         <div class="d-flex">
                         <form method="GET">
                             <div class="input-group flex-nowrap mb-2">
                             <span class="input-group-text" id="addon-wrapping">Titolo</span>
-                            <input type="text" name="title" class="form-control" placeholder="Foto da ricercare" for="title" aria-describedby="addon-wrapping">
+                            <input type="text" name="title" class="form-control" placeholder="Foto da ricercare" for="title" aria-describedby="addon-wrapping" th:value="${title}">
                             <button type="submit" class="btn btn-primary">Cerca</button>
                         </div>
                         </form>
+                        <div class="ms-auto">
+                        <a th:href="@{/photos/create}" class="btn btn-primary">Aggiungi una foto</a>  
+                    </div>
+
                     </div>
                         <table class="table table-hover">
                             <thead>
@@ -37,7 +44,7 @@
                                     <th scope="col">Azioni</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody th:if="${!#lists.isEmpty(photos)}">
                                 <tr 
                                 th:each="photo : ${photos}" 
                                 th:object="${photo}" class="align-middle text-center">
@@ -54,10 +61,12 @@
                                             </li>
                                         </ul>
                                     </td>
-                                    <td>[[*{visible ? 'SI' : NO}]]</td>
+                                    <td>[[*{visible ? 'SI' : 'NO'}]]</td>
                                     <td>
                                         <!--  TO  DO   -->
                                         <a th:href="@{/photos/{id}(id=*{id})}" class="btn btn-primary"><i class="fa-solid fa-eye"></i></a>
+                                        <a th:href="@{/photos/update/{id}(id=*{id})}" class="btn btn-info"><i class="fa-solid fa-pencil"></i></a>
+
                                     </td>
                             </tbody>
                         </table>

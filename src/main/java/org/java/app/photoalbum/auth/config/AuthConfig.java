@@ -41,9 +41,7 @@ public class AuthConfig {
 			http.authorizeHttpRequests()			
 				//ACCESSO RISORSE STATIC
 				.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-//		        .requestMatchers("").hasAuthority("ADMIN")
-
-		        .requestMatchers("/**").permitAll() //Permetti redirect alla login
+		        .requestMatchers("/**").hasAuthority("ADMIN")
 		        .and().formLogin().defaultSuccessUrl("/photos")
 		        .and().logout(); 
 				
