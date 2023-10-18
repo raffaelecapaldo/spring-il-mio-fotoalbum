@@ -106,4 +106,16 @@ public class PhotoController {
 			RedirectAttributes ra) {
 		return savePhoto(photo, bindingResult, model, ra, false);		
 	}
+	
+	@PostMapping("/delete/{id}")
+	public String deletePizza(@PathVariable int id, RedirectAttributes ra) {
+		Optional<Photo> optPhoto = photoService.findById(id);
+		if (optPhoto.isEmpty()) {
+			return "redirect:/photos";
+		}
+		Photo photo = optPhoto.get();
+		ra.addFlashAttribute("updateMessage", "Foto con ID: " + photo.getId() + " (" + photo.getTitle() + ") cancellata");
+		photoService.delete(photo);
+		return "redirect:/photos";
+	}
 }

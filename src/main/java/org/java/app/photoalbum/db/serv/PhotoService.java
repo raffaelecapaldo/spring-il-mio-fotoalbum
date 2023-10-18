@@ -29,5 +29,9 @@ public class PhotoService {
 	public List<Photo> findByTitle(String title) {
 		return photoRepo.findByTitleContaining(title);
 	}
+	
+	public void delete(Photo photo) {
+		photoRepo.delete(photo);
+	}
 
 }

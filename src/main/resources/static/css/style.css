@@ -60,3 +60,7 @@
     color:white;
     min-width: 30%;
 }
+
+.delete-form {
+	display:inline-block;
+}
