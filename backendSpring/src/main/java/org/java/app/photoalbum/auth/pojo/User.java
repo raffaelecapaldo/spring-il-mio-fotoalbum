@@ -4,9 +4,12 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import org.java.app.photoalbum.db.pojo.Photo;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,6 +18,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -35,6 +39,16 @@ public class User implements UserDetails {
 	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Role> roles;
 	
+	@OneToMany(mappedBy = "user")
+	@JsonManagedReference
+	private List<Photo> photos;
+	
+	public List<Photo> getPhotos() {
+		return photos;
+	}
+	public void setPhotos(List<Photo> photos) {
+		this.photos = photos;
+	}
 	public User() { }
 	public User(String username, String password, Role...roles ) {
 		setUsername(username);

@@ -42,16 +42,7 @@ public class SpringIlMioFotoalbumApplication implements CommandLineRunner {
 		categoryService.save(cat3);
 
 		
-		Photo ph1 = new Photo("Il grande albero", "Gioco di luci con un albero",
-				"https://img.freepik.com/free-photo/green-meadow-tree-sunset-beauty-generated-by-ai_188544-44226.jpg",
-				true, cat1, cat3);
-		
-		Photo ph2 = new Photo("La bambina sull'altalena", "Foto dall'alto, studentessa gioca sull'altalena",
-				"https://i1.adis.ws/i/canon/pro-issues-affecting-student-photographers-1_4961dcc710a54b35b57d7c1dc2c9a14f?$media-collection-full-dt-jpg",
-				true, cat2, cat3);
-		
-		photoService.save(ph1);
-		photoService.save(ph2);
+	
 		
 		Role admin = new Role("ADMIN");
 		roleService.save(admin);
@@ -60,6 +51,17 @@ public class SpringIlMioFotoalbumApplication implements CommandLineRunner {
 		
 		User raf = new User("raf", rafPsw, admin);
 		userService.save(raf);
+		
+		Photo ph1 = new Photo("Il grande albero", "Gioco di luci con un albero",
+				"https://img.freepik.com/free-photo/green-meadow-tree-sunset-beauty-generated-by-ai_188544-44226.jpg",
+				true, raf, cat1, cat3);
+		
+		Photo ph2 = new Photo("La bambina sull'altalena", "Foto dall'alto, studentessa gioca sull'altalena",
+				"https://i1.adis.ws/i/canon/pro-issues-affecting-student-photographers-1_4961dcc710a54b35b57d7c1dc2c9a14f?$media-collection-full-dt-jpg",
+				true, raf, cat2, cat3);
+		
+		photoService.save(ph1);
+		photoService.save(ph2);
 
 		
 		
