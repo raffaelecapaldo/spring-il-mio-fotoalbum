@@ -39,18 +39,47 @@
         </div>
       </div>
     </div>
+    <div class="py-2 hero container-fluid d-flex justify-content-center align-items-center mt-4">
+      <h4 class="text-uppercase m-0">Contattaci</h4>
+    </div>
+    <div class="container-fluid d-flex justify-content-center ">
+      <form @submit.prevent="sendMessage" class="myform d-flex flex-column justify-content-center align-items-center " action="">
+        <div class="mb-3">
+          <input required v-model="formEmail" type="email" class="form-control" placeholder="La tua email">
+        </div>
+        <div class="mb-3">
+          <textarea maxlength="650" minlength="3" v-model="formText" type="email" class="form-control" rows="3" placeholder="Il tuo messaggio..."></textarea>
+          <p class="m-0 text-white">Caratteri max: 650</p>
+        </div>
+        <div class="mb-1">
+          <input type="submit" class="mybutton text-decoration-none fs-5">
+        </div>
+       
+        
+      </form>
+    </div>
   </main>
+  <footer>
+          <div class="p-3 d-flex justify-content-center align-items-center">
+            <p class="m-0 fs-4">Made by Raf-san</p>
+          </div>
+        </footer>
 </template>
 
 <script>
 import axios from 'axios';
+import { useToast } from "vue-toastification";
+
 export default {
   data() {
     return {
       API_URL: "http://localhost:8080/api/v1/",
-      photos: null
-    }
-  },
+      photos: null,
+      formEmail: null,
+      formText: null,
+      toast: useToast()
+  
+  }},
   methods: {
     getPhotos() {
       axios.get(this.API_URL + 'photos')
@@ -60,6 +89,24 @@ export default {
         .catch((e) => {
           console.log(e)
         })
+    },
+    sendMessage() {
+      const message = {
+        email: this.formEmail,
+        text: this.formText
+      }
+      axios.post(this.API_URL + 'message', message)
+      .then((res) => {
+        this.formEmail = 
+        this.formText = null
+        this.toast.success("Messaggio inviato!", {
+            timeout: 2000
+          })
+
+      })
+      .catch((e) => {
+        console.log(e)
+      })
     }
   },
   mounted() {
@@ -116,5 +163,40 @@ nav {
   min-width: 350px;
   max-width: 350px;
 
+
+}
+
+.myform {
+
+  background-color: #46576b;
+  width: 400px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+
+}
+
+textarea {
+  width: 300px
+}
+
+.mybutton {
+  all:unset;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom:5px;
+  padding-top:5px;
+  border-radius:3px;
+  color:white;
+  cursor:pointer;
+  background-color: #1b292b !important;;
+  &:hover {
+    background-color: black !important;;
+  }
+}
+
+footer {
+  margin-top:10px;
+  background-color: #1b292b;
+  color:white;
 }
 </style>
