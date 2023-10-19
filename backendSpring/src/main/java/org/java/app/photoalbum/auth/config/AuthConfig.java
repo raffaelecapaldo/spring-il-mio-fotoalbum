@@ -43,7 +43,7 @@ public class AuthConfig {
 				.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()	
 				.requestMatchers("/api/v1/**").permitAll()
 		        .requestMatchers("/**").hasAuthority("ADMIN")
-		        .and().formLogin().defaultSuccessUrl("/photos")
+		        .and().formLogin().defaultSuccessUrl("/")
 	            .and().csrf().ignoringRequestMatchers("/api/v1/**") //Disattiva CSRF solo per le RESTAPI
 		        .and().logout(); 
 				
