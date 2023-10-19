@@ -1,5 +1,6 @@
-import 'bootstrap/dist/css/bootstrap.css'
+import "@fontsource/roboto"; 
 import './assets/main.css'
+import 'bootstrap/dist/css/bootstrap.css'
 
 import { createApp } from 'vue'
 import App from './App.vue'
