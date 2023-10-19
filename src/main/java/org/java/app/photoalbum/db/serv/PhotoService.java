@@ -33,5 +33,13 @@ public class PhotoService {
 	public void delete(Photo photo) {
 		photoRepo.delete(photo);
 	}
+	
+	public List<Photo> findAllVisibles() {
+		return photoRepo.findByVisibleTrue();
+	}
+	
+	public List <Photo> findVisiblesByTitle(String title) {
+		return photoRepo.findByTitleContainingAndVisibleTrue(title);
+	}
 
 }

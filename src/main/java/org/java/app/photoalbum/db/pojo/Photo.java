@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,6 +38,7 @@ public class Photo {
 	private boolean visible;
 	
 	@ManyToMany
+	@JsonManagedReference
 	private List<Category> categories;
 	
 	
