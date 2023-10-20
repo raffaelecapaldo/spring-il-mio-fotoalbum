@@ -12,7 +12,7 @@
                     [[${updateMessage}]]
                 </div>
                 <div class="d-flex justify-content-center">
-                    <h1>Gestione foto<span sec:authorize="hasAuthority('SUPER_ADMIN')"> di tutti gli utenti</span></h1>
+                    <h1>Gestione foto</h1>
                 </div>
                 <div th:if="${#lists.isEmpty(photos)}" class="d-flex justify-content-center mt-2">
                     <h2>Nessuna foto trovata</h2>
@@ -41,8 +41,9 @@
                                     <th scope="col">Preview</th>
                                     <th scope="col">Categorie</th>
                                     <th scope="col">Visibile</th>
-                                    <th sec:authorize="hasAuthority('SUPER_ADMIN')" scope="col">Utente</th>
                                     <th scope="col">Azioni</th>
+                                    <th  sec:authorize="hasAuthority('SUPER_ADMIN')" scope="col">Mostra/Nascondi</th>
+
                                 </tr>
                             </thead>
                             <tbody th:if="${!#lists.isEmpty(photos)}">
@@ -63,9 +64,6 @@
                                         </ul>
                                     </td>
                                     <td>[[*{visible ? 'SI' : 'NO'}]]</td>
-                                    <td sec:authorize="hasAuthority('SUPER_ADMIN')">
-                                        [[*{user.username}]]
-                                    </td>
                                     <td>
                                         <a th:href="@{/photos/{id}(id=*{id})}" class="btn btn-primary"><i class="fa-solid fa-eye"></i></a>
                                         <a th:href="@{/photos/update/{id}(id=*{id})}" class="btn btn-info"><i class="fa-solid fa-pencil"></i></a>
@@ -73,6 +71,11 @@
                                            <a class="btn btn-danger delete-button"><i class="fa-regular fa-trash-can"></i></a>  
                                           </form>
 
+                                    </td>
+                                    <td sec:authorize="hasAuthority('SUPER_ADMIN')">
+                                        <form class="delete-form" th:action="@{/photos/change-visibility/{id}(id=*{id})}" method="POST">
+                                            <a class="btn btn-warning delete-button"></i>[[*{visible ? 'NASCONDI' : 'MOSTRA'}]]</a>  
+                                           </form>
                                     </td>
                             </tbody>
                         </table>
