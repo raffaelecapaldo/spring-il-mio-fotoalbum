@@ -3,6 +3,7 @@ package org.java.app.photoalbum.db.serv;
 import java.util.List;
 import java.util.Optional;
 
+import org.java.app.photoalbum.auth.pojo.User;
 import org.java.app.photoalbum.db.pojo.Photo;
 import org.java.app.photoalbum.db.repo.PhotoRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,14 @@ public class PhotoService {
 	
 	public List <Photo> findVisiblesByTitle(String title) {
 		return photoRepo.findByTitleContainingAndVisibleTrue(title);
+	}
+	
+	public List <Photo> findAllByUser(User user) {
+		return photoRepo.findByUser(user);
+	}
+	
+	public List <Photo> findAllByUserWithTitle(User user, String title) {
+		return photoRepo.findByTitleContainingAndUser(title, user);
 	}
 
 }

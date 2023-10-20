@@ -34,14 +34,23 @@ public class PhotoController {
 	@Autowired
 	private CategoryService categoryService;
 	
+	private boolean isSuperAdmin(UserDetails user) {
+		return user.getAuthorities().stream().anyMatch(auth -> "SUPER_ADMIN".equals(auth.getAuthority()));
+		
+	}
+	
+	private boolean sameUser(UserDetails userPhoto, UserDetails loggedUser) {
+		return userPhoto.getUsername().equals(loggedUser.getUsername()) 
+				&& userPhoto.getPassword().equals(loggedUser.getPassword());
+	}
+	
 	private String savePhoto(Photo photo, BindingResult bindingResult, Model model, 
 			RedirectAttributes ra, boolean isNew, @AuthenticationPrincipal UserDetails user) {
 		
 		if (!isNew) {
 		
 		UserDetails userPhoto = photo.getUser();
-		boolean isSuperAdmin = user.getAuthorities().stream().anyMatch(auth -> "SUPER_ADMIN".equals(auth.getAuthority()));
-		if (userPhoto != user && !isSuperAdmin)
+		if (!sameUser(userPhoto, user) && (!isSuperAdmin(user)))
 		    throw new ResponseStatusException(HttpStatus.FORBIDDEN); 
 
 		}
@@ -56,7 +65,7 @@ public class PhotoController {
 		}
 		else {
 			ra.addFlashAttribute("updateMessage", "Foto " + (isNew ? 
-															"aggiunta " :
+														"aggiunta " :
 															"modificata ")
 														+ "correttamente!");
 			photoService.save(photo);
@@ -67,11 +76,25 @@ public class PhotoController {
 	
 	
 	@GetMapping public String getIndex(Model model,
-			@RequestParam(required = false) String title) {
+			@RequestParam(required = false) String title, 
+			@AuthenticationPrincipal org.java.app.photoalbum.auth.pojo.User user) {
 		
-		List<Photo> photos = title == null ?
-							 photoService.findAll():
-							 photoService.findByTitle(title);
+		List<Photo> photos = null;
+		
+		if (!isSuperAdmin(user)) {
+		 photos = title == null ?
+							 photoService.findAllByUser(user):
+							 photoService.findAllByUserWithTitle(user, title);
+		
+		}
+		
+		else {
+			
+			 photos = title == null ?
+					 photoService.findAll():
+					 photoService.findByTitle(title);
+			
+		}
 		
 		model.addAttribute("photos", photos);
 		model.addAttribute("title", title);
@@ -81,7 +104,9 @@ public class PhotoController {
 	}
 	
 	@GetMapping("/{id}")
-	public String getShow(@PathVariable int id, Model model) {
+	public String getShow(@PathVariable int id, Model model, @AuthenticationPrincipal UserDetails user) {
+		
+		
 		
 		Optional<Photo> otpPhoto = photoService.findById(id);
 		if (otpPhoto.isEmpty()) {
@@ -89,6 +114,14 @@ public class PhotoController {
 		}
 		Photo photo = otpPhoto.get();
 		model.addAttribute("photo", photo);
+		
+		UserDetails userPhoto = photo.getUser();
+		System.out.println(userPhoto.getUsername());
+		System.out.println(user.getUsername());
+		if (!sameUser(userPhoto, user) && (!isSuperAdmin(user)))
+		    throw new ResponseStatusException(HttpStatus.FORBIDDEN); 
+
+		
 		
 		return "photos/photo-show";
 	}
@@ -138,9 +171,8 @@ public class PhotoController {
 		Photo photo = optPhoto.get();
 
 		org.java.app.photoalbum.auth.pojo.User userPhoto = photo.getUser();
-		boolean isSuperAdmin = user.getAuthorities().stream().anyMatch(auth -> "SUPER_ADMIN".equals(auth.getAuthority()));
 
-		if (userPhoto != user && !isSuperAdmin)
+		if (!sameUser(userPhoto, user) && (!isSuperAdmin(user)))
 		    throw new ResponseStatusException(HttpStatus.FORBIDDEN); 
 
 		
