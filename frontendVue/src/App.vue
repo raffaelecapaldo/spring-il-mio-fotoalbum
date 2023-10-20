@@ -16,8 +16,25 @@
     <div class="py-4 mb-2 hero container-fluid d-flex justify-content-center">
       <h1 class="text-uppercase">Le foto più apprezzate</h1>
     </div>
+
+    <div class="d-flex justify-content-center">
+      <form class="w-75" @submit.prevent="getPhotos">
+        <div class="input-group flex-nowrap mb-2">
+
+          <span class="input-group-text" id="addon-wrapping">Filtro</span>
+          <input type="text" name="title" class="form-control" placeholder="Foto da ricercare" for="title"
+            aria-describedby="addon-wrapping" v-model="titleSearch">
+          <button type="submit" class="mybutton">Cerca</button>
+        </div>
+      </form>
+    </div>
+
+    <div v-if="photos == null" class="p-2 notfound mt-3">
+        <p>Nessuna foto trovata</p>
+    </div>
+
     <div class="container-fluid d-flex gap-3 flex-wrap justify-content-center">
-      <div v-for="photo in photos" class="container-photo">
+      <div v-if="photos != null" v-for="photo in photos" class="container-photo">
         <div class="photo">
           <div class="photo-image ">
             <div class="d-flex justify-content-center">
@@ -32,37 +49,40 @@
                 <span v-for="(category, i) in photo.categories">{{ category.name }}<span
                     v-if="i < photo.categories.length - 1">, </span></span>
               </p>
-           <p>Autore: {{ photo.username }}</p>
+              <p>Autore: {{ photo.username }}</p>
             </div>
           </div>
         </div>
       </div>
+
     </div>
     <div class="py-2 hero container-fluid d-flex justify-content-center align-items-center mt-4">
       <h4 class="text-uppercase m-0">Contattaci</h4>
     </div>
     <div class="container-fluid d-flex justify-content-center ">
-      <form @submit.prevent="sendMessage" class="myform d-flex flex-column justify-content-center align-items-center " action="">
+      <form @submit.prevent="sendMessage" class="myform d-flex flex-column justify-content-center align-items-center "
+        action="">
         <div class="mb-3">
           <input required v-model="formEmail" type="email" class="form-control" placeholder="La tua email">
         </div>
         <div class="mb-3">
-          <textarea maxlength="650" minlength="3" v-model="formText" type="email" class="form-control" rows="3" placeholder="Il tuo messaggio..."></textarea>
+          <textarea maxlength="650" minlength="3" v-model="formText" type="email" class="form-control" rows="3"
+            placeholder="Il tuo messaggio..."></textarea>
           <p class="m-0 text-white">Caratteri max: 650</p>
         </div>
         <div class="mb-1">
           <input type="submit" class="mybutton text-decoration-none fs-5">
         </div>
-       
-        
+
+
       </form>
     </div>
   </main>
   <footer>
-          <div class="p-3 d-flex justify-content-center align-items-center">
-            <p class="m-0 fs-4">Made by Raf-san</p>
-          </div>
-        </footer>
+    <div class="p-3 d-flex justify-content-center align-items-center">
+      <p class="m-0 fs-4">Made by Raf-san</p>
+    </div>
+  </footer>
 </template>
 
 <script>
@@ -76,17 +96,23 @@ export default {
       photos: null,
       formEmail: null,
       formText: null,
-      toast: useToast()
-  
-  }},
+      toast: useToast(),
+      titleSearch: null
+
+    }
+  },
   methods: {
     getPhotos() {
-      axios.get(this.API_URL + 'photos')
+      axios.get(this.API_URL + 'photos', {
+        params: {
+          q: this.titleSearch
+        }
+      })
         .then((res) => {
           this.photos = res.data
         })
         .catch((e) => {
-          console.log(e)
+          this.photos = null
         })
     },
     sendMessage() {
@@ -95,17 +121,17 @@ export default {
         text: this.formText
       }
       axios.post(this.API_URL + 'message', message)
-      .then((res) => {
-        this.formEmail = 
-        this.formText = null
-        this.toast.success("Messaggio inviato!", {
+        .then((res) => {
+          this.formEmail =
+            this.formText = null
+          this.toast.success("Messaggio inviato!", {
             timeout: 2000
           })
 
-      })
-      .catch((e) => {
-        console.log(e)
-      })
+        })
+        .catch((e) => {
+          console.log(e)
+        })
     }
   },
   mounted() {
@@ -179,23 +205,32 @@ textarea {
 }
 
 .mybutton {
-  all:unset;
+  all: unset;
   padding-left: 20px;
   padding-right: 20px;
-  padding-bottom:5px;
-  padding-top:5px;
-  border-radius:3px;
-  color:white;
-  cursor:pointer;
-  background-color: #1b292b !important;;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  border-radius: 3px;
+  color: white;
+  cursor: pointer;
+  background-color: #1b292b !important;
+  ;
+
   &:hover {
-    background-color: black !important;;
+    background-color: black !important;
+    ;
   }
 }
 
-footer {
-  margin-top:10px;
+.notfound {
   background-color: #1b292b;
-  color:white;
+  color:#F2F2F2;
+  text-align: center;
+  font-size: 3rem;
 }
-</style>
+
+footer {
+  margin-top: 10px;
+  background-color: #1b292b;
+  color: white;
+}</style>
