@@ -50,12 +50,17 @@ public class SpringIlMioFotoalbumApplication implements CommandLineRunner {
 		
 		final String rafPsw = new BCryptPasswordEncoder().encode("raf");
 		final String marcoPsw = new BCryptPasswordEncoder().encode("marco");
+		final String superAdminpsw = new BCryptPasswordEncoder().encode("superadmin");
+
 		
 		
 		User raf = new User("raf", rafPsw, admin);
 		userService.save(raf);
 		User marco = new User("marco", marcoPsw, admin);
 		userService.save(marco);
+		
+		User superAdminuser = new User("superAdmin", superAdminpsw, superAdmin, admin);
+		userService.save(superAdminuser);
 
 		
 		Photo ph1 = new Photo("Il grande albero", "Gioco di luci con un albero",
@@ -73,6 +78,11 @@ public class SpringIlMioFotoalbumApplication implements CommandLineRunner {
 		photoService.save(ph1);
 		photoService.save(ph2);
 		photoService.save(ph3);
+		
+		System.out.println(ph1.getUser());
+		System.out.println(ph2);
+		System.out.println(ph3);
+
 
 		
 		

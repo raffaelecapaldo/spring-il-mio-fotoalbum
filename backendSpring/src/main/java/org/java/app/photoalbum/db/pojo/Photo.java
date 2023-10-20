@@ -6,7 +6,7 @@ import java.util.List;
 import org.hibernate.validator.constraints.Length;
 import org.java.app.photoalbum.auth.pojo.User;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.annotation.Nullable;
@@ -52,8 +52,8 @@ public class Photo {
 	@JsonManagedReference
 	private List<Category> categories;
 	
+	@JsonIgnore
 	@ManyToOne
-	@JsonBackReference
 	@JoinColumn(nullable = false)
 	private User user;
 	
@@ -118,6 +118,10 @@ public class Photo {
 	}
 	public void setVisible(boolean visible) {
 		this.visible = visible;
+	}
+	
+	public String getUsername() {
+		return getUser().getUsername();
 	}
 	
 	@Override

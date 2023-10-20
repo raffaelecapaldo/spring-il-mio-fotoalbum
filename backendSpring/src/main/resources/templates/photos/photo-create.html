@@ -50,7 +50,7 @@
                             type="checkbox" 
                             th:id="${'category-' + category.id}"
                             th:value="*{id}"
-                            th:checked="${photo.hasCategory(photo)}"
+                            th:checked="${photo.hasCategory(category)}"
                             th:field="${photo.categories}">
                        
                     </div>
