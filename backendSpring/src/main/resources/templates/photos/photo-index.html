@@ -40,6 +40,7 @@
                                     <th scope="col">Descrizione</th>
                                     <th scope="col">Preview</th>
                                     <th scope="col">Categorie</th>
+                                    <th sec:authorize="hasAuthority('SUPER_ADMIN')" scope="col">Utente</th>
                                     <th scope="col">Visibile</th>
                                     <th scope="col">Azioni</th>
                                     <th  sec:authorize="hasAuthority('SUPER_ADMIN')" scope="col">Mostra/Nascondi</th>
@@ -63,6 +64,7 @@
                                             </li>
                                         </ul>
                                     </td>
+                                    <td sec:authorize="hasAuthority('SUPER_ADMIN')">[[*{user.username}]]</td>
                                     <td>[[*{visible ? 'SI' : 'NO'}]]</td>
                                     <td>
                                         <a th:href="@{/photos/{id}(id=*{id})}" class="btn btn-primary"><i class="fa-solid fa-eye"></i></a>
