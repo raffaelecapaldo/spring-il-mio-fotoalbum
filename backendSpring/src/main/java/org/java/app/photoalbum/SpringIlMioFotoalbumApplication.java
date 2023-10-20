@@ -78,13 +78,7 @@ public class SpringIlMioFotoalbumApplication implements CommandLineRunner {
 		photoService.save(ph1);
 		photoService.save(ph2);
 		photoService.save(ph3);
-		
-		System.out.println(ph1.getUser());
-		System.out.println(ph2);
-		System.out.println(ph3);
-
-
-		
+				
 		
 		
 	}

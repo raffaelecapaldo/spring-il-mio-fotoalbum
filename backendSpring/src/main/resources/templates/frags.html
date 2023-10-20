@@ -26,6 +26,7 @@
                 <li><a th:href="@{/photos}"><span sec:authorize="hasAuthority('SUPER_ADMIN')">Modera foto</span>
                     <span sec:authorize="!hasAuthority('SUPER_ADMIN')">Gestione foto</span></a></li>
                 <li sec:authorize="hasAuthority('SUPER_ADMIN')"><a th:href="@{/categories}">Lista categorie</a></li>
+                <li sec:authorize="hasAuthority('SUPER_ADMIN')"><a th:href="@{/messages}">Elenco messaggi</a></li>
                 <li><a th:href="@{/logout}">Logout</a></li>
             </ul>
         </div>

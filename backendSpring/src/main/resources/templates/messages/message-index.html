@@ -1,0 +1,57 @@
+<th:block th:replace="frags :: head('Visualizza messaggi')">
+</th:block>
+
+<body>
+    <main>
+        <div class="dashboard">
+            <div th:insert="frags :: sidebar">
+
+            </div>
+            <div class="main-content">
+                <div th:if="${updateMessage}" class="alert alert-success text-center">
+                    [[${updateMessage}]]
+                </div>
+                <div class="d-flex justify-content-center">
+                    <h1>Elenco messaggi</h1>
+
+                </div>
+
+                <div th:if="${#lists.isEmpty(messages)}" class="d-flex justify-content-center mt-2">
+                    <h2>Non hai ricevuto messaggi</h2>
+                </div>
+                <div th:if="${!#lists.isEmpty(messages)}" class="d-flex justify-content-center">
+                    <div class="table-responsive mt-2">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr class="text-center">
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Email mittente</th>
+                                    <th scope="col">Testo messaggio</th>
+                                    <th scope="col">Cancella</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr 
+                                th:each="message : ${messages}" 
+                                th:object="${message}" class="align-middle text-center">
+                                    <td>[[*{id}]]</td>
+                                    <td><a th:href="'mailto:' + *{email}">[[*{email}]]</a></td>
+                                    <td style="max-width: 400px; word-wrap: break-word;">
+                                        [[*{text}]]
+                                    </td>
+                                    <td>
+                                        <form class="delete-form" th:action="@{/messages/delete/{id}(id=*{id})}" method="POST">
+                                            <a class="btn btn-danger delete-button"><i class="fa-regular fa-trash-can"></i></a>  
+                                           </form>
+                                    </td>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+    </main>
+    <script th:src="@{/js/form.js}"></script>
+</body>
+
+</html>

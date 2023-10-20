@@ -42,6 +42,7 @@ public class AuthConfig {
 				//ACCESSO RISORSE STATIC
 				.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()	
 				.requestMatchers("/api/v1/**").permitAll()
+		        .requestMatchers("/messages/**").hasAuthority("SUPER_ADMIN")
 		        .requestMatchers("/photos/change-visibility/**").hasAuthority("SUPER_ADMIN")
 		        .requestMatchers("/categories/**").hasAuthority("SUPER_ADMIN") //come specificato dal prof
 		        .requestMatchers("/**").hasAuthority("ADMIN")
