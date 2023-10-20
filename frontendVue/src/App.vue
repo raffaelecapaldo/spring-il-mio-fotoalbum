@@ -124,7 +124,7 @@ export default {
       axios.post(this.API_URL + 'message', message)
         .then((res) => {
           this.formEmail =
-            this.formText = null
+            this.formText = ""
           this.toast.success("Messaggio inviato!", {
             timeout: 2000
           })
