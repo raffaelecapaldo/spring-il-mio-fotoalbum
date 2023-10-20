@@ -42,6 +42,7 @@ public class AuthConfig {
 				//ACCESSO RISORSE STATIC
 				.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()	
 				.requestMatchers("/api/v1/**").permitAll()
+		        .requestMatchers("/categories/**").hasAuthority("SUPER_ADMIN") //come specificato dal prof
 		        .requestMatchers("/**").hasAuthority("ADMIN")
 		        .and().formLogin().defaultSuccessUrl("/")
 	            .and().csrf().ignoringRequestMatchers("/api/v1/**") //Disattiva CSRF solo per le RESTAPI

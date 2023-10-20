@@ -121,6 +121,12 @@ public class PhotoController {
 	
 	@GetMapping("/update/{id}")
 	public String photoUpdate(@PathVariable int id, Model model, @AuthenticationPrincipal UserDetails user) {
+		Photo fullInfoPhoto = photoService.findById(id).get();
+		org.java.app.photoalbum.auth.pojo.User userPhoto = fullInfoPhoto.getUser();
+		if (!sameUser(userPhoto, user) && (!isSuperAdmin(user))) 
+		    throw new ResponseStatusException(HttpStatus.FORBIDDEN); 
+		
+		
 		Optional<Photo> optPhoto = photoService.findById(id);
 		if (optPhoto.isEmpty()) {
 			return "redirect:/photos";
@@ -128,7 +134,6 @@ public class PhotoController {
 		Photo photo = optPhoto.get();
 
 		model.addAttribute("photo", photo);
-		System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAA"+photo.getCategories());
 		model.addAttribute("categories", categoryService.findAll());
 
 		

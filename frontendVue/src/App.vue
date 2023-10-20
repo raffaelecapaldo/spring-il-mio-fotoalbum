@@ -32,8 +32,7 @@
                 <span v-for="(category, i) in photo.categories">{{ category.name }}<span
                     v-if="i < photo.categories.length - 1">, </span></span>
               </p>
-              <!-- TODO -->
-              <!-- <p>Autore: </p> -->
+           <p>Autore: {{ photo.username }}</p>
             </div>
           </div>
         </div>
