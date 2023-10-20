@@ -68,7 +68,7 @@
         <div class="mb-3">
           <textarea maxlength="650" minlength="3" v-model="formText" type="email" class="form-control" rows="3"
             placeholder="Il tuo messaggio..."></textarea>
-          <p class="m-0 text-white">Caratteri max: 650</p>
+          <p class="m-0 text-white">Caratteri rimanenti: {{ MAX_CHARFORM - formText.length }}</p>
         </div>
         <div class="mb-1">
           <input type="submit" class="mybutton text-decoration-none fs-5">
@@ -95,9 +95,10 @@ export default {
       API_URL: "http://localhost:8080/api/v1/",
       photos: null,
       formEmail: null,
-      formText: null,
+      formText: "",
       toast: useToast(),
-      titleSearch: null
+      titleSearch: null,
+      MAX_CHARFORM: 650
 
     }
   },
