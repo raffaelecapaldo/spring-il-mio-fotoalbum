@@ -181,4 +181,16 @@ public class PhotoController {
 		photoService.delete(photo);
 		return "redirect:/photos";
 	}
-}
+	
+	@PostMapping("/change-visibility/{id}")
+	public String changeVisibilityPhoto(@PathVariable int id, RedirectAttributes ra) {
+		
+		Photo photo = photoService.findById(id).get();
+		photo.setVisible(!photo.isVisible());
+		photoService.save(photo);
+		
+		ra.addFlashAttribute("updateMessage", "Foto con ID: " + photo.getId() + " (" + photo.getTitle() + ") "
+		+ (photo.isVisible() ? "resa visibile" : "resa nascosta"));
+		return "redirect:/photos";
+		
+	}}
