@@ -4,7 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.hibernate.validator.constraints.Length;
+import org.java.app.photoalbum.auth.pojo.User;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.annotation.Nullable;
@@ -13,7 +15,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -31,6 +35,13 @@ public class Photo {
 	@Nullable
 	private String description;
 	
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 	@Length(min = 3, max = 255, message = "L'URL della foto deve avere una lunghezza tra i 3 e i 255 caratteri")
 	private String url;
 	
@@ -40,6 +51,11 @@ public class Photo {
 	@ManyToMany
 	@JsonManagedReference
 	private List<Category> categories;
+	
+	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(nullable = false)
+	private User user;
 	
 	
 	public List<Category> getCategories() {
@@ -63,13 +79,14 @@ public class Photo {
 	
 	public Photo () { }
 	public Photo (String title, String description, 
-			String url, boolean visible, Category...categories ) {
+			String url, boolean visible, User user, Category...categories ) {
 		
 		setTitle(title);
 		setDescription(description);
 		setUrl(url);
 		setVisible(visible);
 		setCategories(Arrays.asList(categories));
+		setUser(user);
 		
 	}
 	public int getId() {
@@ -101,6 +118,10 @@ public class Photo {
 	}
 	public void setVisible(boolean visible) {
 		this.visible = visible;
+	}
+	
+	public String getUsername() {
+		return getUser().getUsername();
 	}
 	
 	@Override

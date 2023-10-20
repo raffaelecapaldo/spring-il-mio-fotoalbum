@@ -7,6 +7,8 @@ import org.java.app.photoalbum.db.pojo.Category;
 import org.java.app.photoalbum.db.serv.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -40,9 +42,11 @@ public class CategoryController {
 		return "categories/category-create";
 	}
 	
+	
+	
 	@PostMapping("/create")
 	public String storeCategory(@Valid @ModelAttribute Category category, BindingResult bindingResult, Model model, 
-			RedirectAttributes ra) {
+			RedirectAttributes ra, @AuthenticationPrincipal UserDetails user) {
 		if (bindingResult.hasErrors()) {
 			 return "categories/category-create";
 		}
@@ -57,7 +61,8 @@ public class CategoryController {
 		}}
 	
 	@PostMapping("/delete/{id}")
-	public String deleteCategory(@PathVariable int id, RedirectAttributes ra) {
+	public String deleteCategory(@PathVariable int id, RedirectAttributes ra, @AuthenticationPrincipal UserDetails user) {
+		
 		Optional<Category> optCategory = categoryService.findById(id);
 		if (optCategory.isEmpty()) {
 			return "redirect:/categories";
