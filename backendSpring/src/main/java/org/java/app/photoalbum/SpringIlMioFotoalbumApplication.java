@@ -75,9 +75,22 @@ public class SpringIlMioFotoalbumApplication implements CommandLineRunner {
 				"https://media.gqitalia.it/photos/607431edacaa7717cd39df14/16:9/w_2560%2Cc_limit/GettyImages-668763051.jpg",
 				true, marco, cat1, cat3);
 		
+		Photo ph4 = new Photo("Forbidden love", "Scatto realizzato in un luogo a me caro",
+				"https://seuppcdn01.1x.com/images/user/79510a90f2d2a64bd4a2d050a8a353e7-hd4.jpg",
+				true, marco, cat1, cat3);
+		
+		Photo ph5 = new Photo("A mezz'aria", "Scatto dei miei amici in spiaggia",
+				"https://i.pinimg.com/originals/3e/95/c0/3e95c04ebc70264cefa36a00aad0817c.jpg",
+				true, raf, cat2, cat3);
+		
+	
 		photoService.save(ph1);
 		photoService.save(ph2);
 		photoService.save(ph3);
+		photoService.save(ph4);
+		photoService.save(ph5);
+
+
 				
 		
 		
